@@ -1,0 +1,9 @@
+.claude/
+*.log
+Thumbs.db
+.DS_Store
+_verify_*.jpg
+# exported product images (downloads, shouldn't be committed)
+*-depan.jpg
+*-belakang.jpg
+*-[0-9].jpg

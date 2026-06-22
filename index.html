@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Vestici — Katalog Generator</title>
+  <meta name="theme-color" content="#E9E1D5" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Vestici" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ovo&family=League+Spartan:wght@100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="appbar">
+    <div class="appbar-inner">
+      <div class="brand">
+        <span class="brand-mark">VESTICI</span>
+        <span class="brand-sub">katalog generator</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ============ CATALOG ============ -->
+    <section id="view-catalog" class="view is-active">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <input id="search" class="input" type="search" placeholder="Cari judul / kode…" autocomplete="off" />
+        </div>
+        <select id="filter-category" class="input select"></select>
+      </div>
+      <div id="catalog-grid" class="grid"></div>
+      <div id="catalog-empty" class="empty" hidden>
+        <p class="empty-title">Belum ada produk</p>
+        <p class="empty-sub">Tap tombol <b>+</b> di bawah untuk tambah produk pertama.</p>
+      </div>
+    </section>
+
+    <!-- ============ FORM ============ -->
+    <section id="view-form" class="view">
+      <h2 id="form-title" class="view-h">Tambah Produk</h2>
+
+      <label class="field">
+        <span class="label">Kategori</span>
+        <select id="f-category" class="input select"></select>
+      </label>
+
+      <div class="field">
+        <span class="label">Kode Ref (otomatis)</span>
+        <div id="f-refcode" class="refcode">—</div>
+      </div>
+
+      <label class="field">
+        <span class="label">Judul</span>
+        <input id="f-title" class="input" type="text" placeholder="cth: Crop Top Black" autocomplete="off" />
+      </label>
+
+      <label class="field">
+        <span class="label">Harga (Rupiah)</span>
+        <input id="f-price" class="input" type="number" inputmode="numeric" placeholder="cth: 35000" />
+        <span id="f-price-preview" class="hint">→ tampil di foto: <b>—</b></span>
+      </label>
+
+      <div class="field">
+        <span class="label">Foto produk</span>
+        <label class="uploader" for="f-files">
+          <span class="uploader-icon">＋</span>
+          <span>Tambah foto (depan, belakang, dst)</span>
+        </label>
+        <input id="f-files" type="file" accept="image/*" multiple hidden />
+        <div id="f-photos" class="photos"></div>
+        <span class="hint">Foto pertama default <b>Depan</b> (ada harga). Bisa diubah & diurutkan.</span>
+      </div>
+
+      <div class="field">
+        <div class="preview-head">
+          <span class="label">Preview feed (1080×1350)</span>
+          <button id="btn-refresh-preview" class="btn btn-ghost btn-sm" type="button">Perbarui</button>
+        </div>
+        <div id="form-preview" class="preview-stack"></div>
+      </div>
+
+      <button id="btn-form-download" class="btn btn-primary btn-block" type="button">⬇ Download semua foto (.jpg)</button>
+      <div class="form-actions">
+        <button id="btn-cancel" class="btn btn-ghost" type="button">Batal</button>
+        <button id="btn-save" class="btn btn-ghost" type="button">Simpan ke katalog</button>
+      </div>
+      <p class="hint">Foto cuma dipakai sementara buat bikin & download — tidak disimpan (hemat penyimpanan). "Simpan" cuma nyimpan kode, judul & harga.</p>
+    </section>
+
+    <!-- ============ DETAIL ============ -->
+    <section id="view-detail" class="view">
+      <div class="detail-head">
+        <button id="btn-back" class="btn btn-ghost btn-sm" type="button">‹ Katalog</button>
+        <div class="detail-actions">
+          <button id="btn-edit" class="btn btn-ghost btn-sm" type="button">Edit</button>
+          <button id="btn-delete" class="btn btn-danger btn-sm" type="button">Hapus</button>
+        </div>
+      </div>
+      <div id="detail-meta" class="detail-meta"></div>
+      <button id="btn-detail-export" class="btn btn-primary btn-block" type="button">⬇ Upload foto & export ulang</button>
+      <p class="hint">Foto tidak disimpan (hemat penyimpanan). Untuk export ulang, tap tombol di atas (atau Edit) lalu upload foto lagi — kode, judul & harga sudah tersimpan.</p>
+    </section>
+
+    <!-- ============ CATEGORIES ============ -->
+    <section id="view-categories" class="view">
+      <h2 class="view-h">Kategori</h2>
+      <div class="cat-add">
+        <input id="c-name" class="input" type="text" placeholder="Nama kategori (cth: Crop Top)" autocomplete="off" />
+        <input id="c-prefix" class="input prefix-input" type="text" placeholder="Kode" maxlength="3" autocomplete="off" />
+        <button id="btn-add-cat" class="btn btn-primary" type="button">Tambah</button>
+      </div>
+      <span class="hint">Kode huruf jadi awalan ref code, cth <b>C</b> → C001, C002.</span>
+      <div id="cat-list" class="cat-list"></div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section id="view-settings" class="view">
+      <h2 class="view-h">Pengaturan</h2>
+      <div class="field">
+        <span class="label">Bingkai template</span>
+        <span class="hint">Template pakai bingkai <b>depan.png</b> &amp; <b>belakang.png</b> (logo Vestici sudah menyatu di bingkai).</span>
+        <div class="frame-preview">
+          <img src="depan.png" alt="bingkai depan" />
+          <img src="belakang.png" alt="bingkai belakang" />
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">Data</span>
+        <span class="hint">Data produk (kategori, kode, judul, harga) disimpan di <b>cloud (Supabase)</b> — sync otomatis di PC &amp; iPhone. <b>Foto tidak disimpan</b> — hanya dipakai saat bikin &amp; download.</span>
+        <div id="storage-info" class="hint"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn is-active" data-view="catalog" type="button"><span class="nav-ic">▤</span><span>Katalog</span></button>
+    <button class="nav-btn nav-add" data-view="form" type="button"><span class="nav-ic">＋</span><span>Tambah</span></button>
+    <button class="nav-btn" data-view="categories" type="button"><span class="nav-ic">▦</span><span>Kategori</span></button>
+    <button class="nav-btn" data-view="settings" type="button"><span class="nav-ic">⚙</span><span>Atur</span></button>
+  </nav>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-db.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

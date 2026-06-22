@@ -1,0 +1,19 @@
+{
+  "name": "Vestici — Katalog Generator",
+  "short_name": "Vestici",
+  "description": "Generator katalog feed Instagram untuk Vestici thrift.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF8F2",
+  "theme_color": "#E9E1D5",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
