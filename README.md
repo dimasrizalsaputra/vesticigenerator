@@ -28,7 +28,7 @@ python -m http.server 8123
 3. **Foto tidak disimpan**: cuma dipakai pas bikin & download. Yang tersimpan cuma kode, judul
    & harga. Mau export ulang? Buka produk → **Upload foto & export ulang** → upload foto lagi.
 4. **Template**: pakai bingkai `depan.png` & `belakang.png` (logo Vestici nyatu di bingkai).
-   Background = foto sama tapi blur 50% → bingkai → foto di dalamnya.
+   Background = foto sama tapi blur 30% → bingkai → foto di dalamnya.
    Font: kode & judul = **Ovo**, harga = **League Spartan**.
 
 ## Export

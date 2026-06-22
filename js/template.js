@@ -5,7 +5,7 @@ const Template = (() => {
   const W = 1080, H = 1350;
 
   const COLORS = {
-    base: '#F3EEE6',     // cream behind the 50% blurred photo
+    base: '#F3EEE6',     // cream behind the 30% blurred photo
     title: '#4F4435',
     price: '#5C4A37',
   };
@@ -93,12 +93,12 @@ const Template = (() => {
     canvas.width = W; canvas.height = H;
     const ctx = canvas.getContext('2d');
 
-    // 1) background: cream base + the SAME photo, blurred, at 50%
+    // 1) background: cream base + the SAME photo, blurred, at 30%
     ctx.fillStyle = COLORS.base;
     ctx.fillRect(0, 0, W, H);
     if (spec.bitmap) {
       ctx.save();
-      ctx.globalAlpha = 0.5;
+      ctx.globalAlpha = 0.3;
       if ('filter' in ctx) ctx.filter = 'blur(45px)';
       drawCover(ctx, spec.bitmap, -80, -80, W + 160, H + 160);
       ctx.restore();
